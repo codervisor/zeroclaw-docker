@@ -20,21 +20,41 @@ FROM debian:trixie-slim
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     curl \
+    wget \
     gosu \
     git \
     npm \
+    gpg \
+    tar \
+    unzip \
+    sudo \
+    python3-pip \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install GitHub CLI (gh)
+RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg \
+    | gpg --dearmor -o /usr/share/keyrings/githubcli-archive-keyring.gpg \
+    && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" \
+    | tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
+    && apt-get update \
+    && apt-get install -y gh \
     && rm -rf /var/lib/apt/lists/*
 
 ENV SHELL=/bin/bash
 
 RUN groupadd -r zeroclaw && \
-    useradd -r -u 10001 -g zeroclaw -m -s /bin/bash zeroclaw
+    useradd -r -u 10001 -g zeroclaw -m -s /bin/bash zeroclaw && \
+    echo 'zeroclaw ALL=(root) NOPASSWD: /usr/bin/apt-get' >> /etc/sudoers.d/zeroclaw && \
+    chmod 0440 /etc/sudoers.d/zeroclaw
 
 COPY --from=builder /build/target/release/zeroclaw /usr/local/bin/zeroclaw
 
 RUN mkdir -p /data/workspace && chown -R zeroclaw:zeroclaw /data
 
-RUN mkdir -p /home/zeroclaw/.zeroclaw && chown -R zeroclaw:zeroclaw /home/zeroclaw/.zeroclaw
+RUN mkdir -p /home/zeroclaw/.zeroclaw /home/zeroclaw/.local/bin \
+    && chown -R zeroclaw:zeroclaw /home/zeroclaw
+
+ENV PATH="/home/zeroclaw/.local/bin:${PATH}"
 
 # Scaffold OpenClaw bootstrap identity files in the workspace
 COPY --chown=zeroclaw:zeroclaw workspace/ /data/workspace/

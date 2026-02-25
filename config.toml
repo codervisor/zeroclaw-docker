@@ -34,8 +34,35 @@ require_pairing = true
 
 # ── Autonomy ─────────────────────────────────────────────────
 [autonomy]
-allowed_commands = ["git", "npm", "cargo", "ls", "cat", "grep"] 
-allowed_roots = ["/home/zeroclaw", "/data"] 
+allowed_commands = [
+  "git",
+  "gh",
+  "npm",
+  "cargo",
+  "ls",
+  "cat",
+  "grep",
+  "curl",
+  "wget",
+  "apt-get",
+  "pip",
+  "pip3",
+  "chmod",
+  "chown",
+  "mkdir",
+  "mv",
+  "cp",
+  "tar",
+  "unzip",
+  "which",
+  "id",
+  "whoami",
+  "echo",
+  "env",
+  "gpg",
+  "sudo",
+] 
+allowed_roots = ["/home/zeroclaw", "/data", "/tmp", "/usr/local/bin"] 
 always_ask = [] 
 auto_approve = [] 
 block_high_risk_commands = true 

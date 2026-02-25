@@ -107,21 +107,6 @@ max_tool_iterations = 10
 [secrets]
 encrypt = true
 
-# ── HTTP Request Tool ─────────────────────────────────────────
-[http_request]
-enabled = true
-# allowed_domains = []                   # empty = allow all
-# blocked_domains = ["169.254.169.254"]  # block cloud metadata SSRF
-# max_response_size_bytes = 1048576      # 1 MiB
-# timeout_secs = 30
-
-# ── Browser Tool ─────────────────────────────────────────────
-[browser]
-enabled = true
-# backend = "headless"                   # headless | playwright
-# allowed_domains = []
-# blocked_domains = []
-
 [security.otp]
 enabled = false
 # method = "totp"                        # totp | pairing | cli-prompt
@@ -173,8 +158,8 @@ max_images = 4
 
 # ── Browser ──────────────────────────────────────────────────
 [browser]
-enabled = false
-# allowed_domains = []
+allowed_domains = ["*"]
+enabled = true
 # session_name = unset
 # backend = "agent_browser"              # agent_browser | rust_native | computer_use | auto
 # native_headless = true
@@ -188,8 +173,8 @@ enabled = false
 
 # ── HTTP Request Tool ────────────────────────────────────────
 [http_request]
-enabled = false
-# allowed_domains = []                   # deny-by-default; use "*" for all public
+allowed_domains = ["*"] # deny-by-default; use "*" for all public
+enabled = true
 # max_response_size = 1000000            # 1 MB
 # timeout_secs = 30
 

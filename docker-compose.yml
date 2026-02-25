@@ -7,11 +7,7 @@ services:
       - "${ZEROCLAW_PORT:-42617}:42617"
     volumes:
       - ./data:/data
-    environment:
-      # Override config.toml values at runtime without editing the file.
-      # Unset vars are ignored; config.toml values are used as fallback.
-      - ZEROCLAW_API_KEY=${ZEROCLAW_API_KEY:-}
-      - ZEROCLAW_PROVIDER=${ZEROCLAW_PROVIDER:-}
-      - ZEROCLAW_MODEL=${ZEROCLAW_MODEL:-}
-      - ZEROCLAW_OPEN_SKILLS_ENABLED=${ZEROCLAW_OPEN_SKILLS_ENABLED:-}
+    env_file:
+      - path: .env
+        required: false
     restart: unless-stopped

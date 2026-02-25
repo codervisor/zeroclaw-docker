@@ -12,7 +12,7 @@ ghcr.io/codervisor/zeroclaw:latest
 
 Multi-stage build:
 
-1. **Builder** (`rust:1.75-slim`) — clones and compiles Zeroclaw with `cargo build --release`
+1. **Builder** (`rust:1.84-slim`) — clones and compiles Zeroclaw with `cargo build --release`
 2. **Runtime** (`debian:bookworm-slim`) — minimal image with only the compiled binary, no Rust toolchain
 
 The final image runs as a non-root user (`zeroclaw`, uid 10001) and exposes port `42617`.
@@ -91,9 +91,9 @@ docker run --rm -p 42617:42617 zeroclaw:local
 
 ## Configuration
 
-| Variable | Default | Description |
-|----------|---------|-------------|
-| Port | 42617 | Gateway listening port |
+| Variable | Default         | Description                    |
+| -------- | --------------- | ------------------------------ |
+| Port     | 42617           | Gateway listening port         |
 | Data Dir | /data/workspace | Persistent workspace directory |
 
 ## CI/CD

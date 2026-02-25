@@ -12,7 +12,7 @@ ghcr.io/codervisor/zeroclaw:latest
 
 Multi-stage build:
 
-1. **Builder** (`rust:1.84-slim`) — clones and compiles Zeroclaw with `cargo build --release`
+1. **Builder** (`rust:slim`) — clones and compiles Zeroclaw with `cargo build --release`
 2. **Runtime** (`debian:bookworm-slim`) — minimal image with only the compiled binary, no Rust toolchain
 
 The final image runs as a non-root user (`zeroclaw`, uid 10001) and exposes port `42617`.

@@ -49,20 +49,17 @@ RUN groupadd -r zeroclaw && \
 
 COPY --from=builder /build/target/release/zeroclaw /usr/local/bin/zeroclaw
 
-RUN mkdir -p /data/workspace && chown -R zeroclaw:zeroclaw /data
-
-RUN mkdir -p /home/zeroclaw/.zeroclaw /home/zeroclaw/.local/bin \
+RUN mkdir -p /home/zeroclaw/.zeroclaw/workspace /home/zeroclaw/.local/bin \
     && chown -R zeroclaw:zeroclaw /home/zeroclaw
 
 ENV PATH="/home/zeroclaw/.local/bin:${PATH}"
 
 # Scaffold OpenClaw bootstrap identity files in the workspace
-COPY --chown=zeroclaw:zeroclaw workspace/ /data/workspace/
+COPY --chown=zeroclaw:zeroclaw workspace/ /home/zeroclaw/.zeroclaw/workspace/
 COPY --chown=zeroclaw:zeroclaw config.toml /home/zeroclaw/.zeroclaw/config.toml
 COPY --chown=zeroclaw:zeroclaw entrypoint.sh /usr/local/bin/entrypoint.sh
 
-# Container starts as root; entrypoint fixes /data ownership
-# then drops to the zeroclaw user via gosu.
+# Container starts as root; entrypoint drops to the zeroclaw user via gosu.
 
 EXPOSE 42617
 

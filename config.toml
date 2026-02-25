@@ -62,7 +62,7 @@ allowed_commands = [
   "gpg",
   "sudo",
 ] 
-allowed_roots = ["/home/zeroclaw", "/data", "/tmp", "/usr/local/bin"] 
+allowed_roots = ["/home/zeroclaw", "/tmp", "/usr/local/bin"] 
 always_ask = [] 
 auto_approve = [] 
 block_high_risk_commands = true 

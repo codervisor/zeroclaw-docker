@@ -3,8 +3,8 @@ set -e
 
 CONFIG="/home/zeroclaw/.zeroclaw/config.toml"
 
-# Fix ownership of the mounted /data volume so the zeroclaw user can write.
-chown -R zeroclaw:zeroclaw /data
+# Fix ownership of the mounted workspace volume so the zeroclaw user can write.
+chown -R zeroclaw:zeroclaw /home/zeroclaw/.zeroclaw/workspace
 
 # ── TOML patcher ─────────────────────────────────────────────
 # Replaces a key's value inside a TOML section (or top-level).

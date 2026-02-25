@@ -6,7 +6,7 @@ services:
     ports:
       - "${ZEROCLAW_PORT:-42617}:42617"
     volumes:
-      - ./data:/data
+      - ./data:/home/zeroclaw/.zeroclaw/workspace
     env_file:
       - path: .env
         required: false

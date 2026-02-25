@@ -41,7 +41,7 @@ docker compose logs -f
 docker run -d \
   --name zeroclaw \
   -p 42617:42617 \
-  -v ./data:/data \
+  -v ./data:/home/zeroclaw/.zeroclaw/workspace \
   --restart unless-stopped \
   ghcr.io/codervisor/zeroclaw:latest
 ```
@@ -145,16 +145,16 @@ Docker Compose automatically loads `.env` from the project directory and passes 
 
 #### Autonomy
 
-| Variable                                    | Config key                                  | Type       | Default                       |
-| ------------------------------------------- | ------------------------------------------- | ---------- | ----------------------------- |
-| `ZEROCLAW_AUTONOMY_LEVEL`                   | `autonomy.level`                            | string     | `full`                        |
-| `ZEROCLAW_AUTONOMY_MAX_ACTIONS_PER_HOUR`    | `autonomy.max_actions_per_hour`             | number     | `20`                          |
-| `ZEROCLAW_AUTONOMY_MAX_COST_PER_DAY_CENTS`  | `autonomy.max_cost_per_day_cents`           | number     | `500`                         |
-| `ZEROCLAW_AUTONOMY_BLOCK_HIGH_RISK`         | `autonomy.block_high_risk_commands`         | bool       | `true`                        |
-| `ZEROCLAW_AUTONOMY_REQUIRE_APPROVAL_MEDIUM` | `autonomy.require_approval_for_medium_risk` | bool       | `true`                        |
-| `ZEROCLAW_AUTONOMY_WORKSPACE_ONLY`          | `autonomy.workspace_only`                   | bool       | `true`                        |
-| `ZEROCLAW_AUTONOMY_ALLOWED_COMMANDS`        | `autonomy.allowed_commands`                 | TOML array | `["git", "npm", ...]`         |
-| `ZEROCLAW_AUTONOMY_ALLOWED_ROOTS`           | `autonomy.allowed_roots`                    | TOML array | `["/home/zeroclaw", "/data"]` |
+| Variable                                    | Config key                                  | Type       | Default               |
+| ------------------------------------------- | ------------------------------------------- | ---------- | --------------------- |
+| `ZEROCLAW_AUTONOMY_LEVEL`                   | `autonomy.level`                            | string     | `full`                |
+| `ZEROCLAW_AUTONOMY_MAX_ACTIONS_PER_HOUR`    | `autonomy.max_actions_per_hour`             | number     | `20`                  |
+| `ZEROCLAW_AUTONOMY_MAX_COST_PER_DAY_CENTS`  | `autonomy.max_cost_per_day_cents`           | number     | `500`                 |
+| `ZEROCLAW_AUTONOMY_BLOCK_HIGH_RISK`         | `autonomy.block_high_risk_commands`         | bool       | `true`                |
+| `ZEROCLAW_AUTONOMY_REQUIRE_APPROVAL_MEDIUM` | `autonomy.require_approval_for_medium_risk` | bool       | `true`                |
+| `ZEROCLAW_AUTONOMY_WORKSPACE_ONLY`          | `autonomy.workspace_only`                   | bool       | `true`                |
+| `ZEROCLAW_AUTONOMY_ALLOWED_COMMANDS`        | `autonomy.allowed_commands`                 | TOML array | `["git", "npm", ...]` |
+| `ZEROCLAW_AUTONOMY_ALLOWED_ROOTS`           | `autonomy.allowed_roots`                    | TOML array | `["/home/zeroclaw"]`  |
 
 #### Runtime
 

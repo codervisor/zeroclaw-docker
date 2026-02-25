@@ -1,0 +1,9 @@
+services:
+  zeroclaw:
+    image: ghcr.io/codervisor/zeroclaw:latest
+    container_name: zeroclaw
+    ports:
+      - "42617:42617"
+    volumes:
+      - ./data:/data
+    restart: unless-stopped

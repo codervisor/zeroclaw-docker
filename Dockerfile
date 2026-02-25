@@ -23,7 +23,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 RUN groupadd -r zeroclaw && \
-    useradd -r -u 10001 -g zeroclaw -s /sbin/nologin zeroclaw
+    useradd -r -u 10001 -g zeroclaw -m -s /sbin/nologin zeroclaw
 
 COPY --from=builder /build/target/release/zeroclaw /usr/local/bin/zeroclaw
 

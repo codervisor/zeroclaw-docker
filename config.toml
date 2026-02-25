@@ -35,7 +35,7 @@ require_pairing = true
 # ── Autonomy ─────────────────────────────────────────────────
 [autonomy]
 allowed_commands = ["git", "npm", "cargo", "ls", "cat", "grep"] 
-allowed_roots = ["/home/zeroclaw"] 
+allowed_roots = ["/home/zeroclaw", "/data"] 
 always_ask = [] 
 auto_approve = [] 
 block_high_risk_commands = true 

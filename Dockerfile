@@ -21,16 +21,23 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     curl \
     gosu \
+    git \
+    npm \
     && rm -rf /var/lib/apt/lists/*
 
+ENV SHELL=/bin/bash
+
 RUN groupadd -r zeroclaw && \
-    useradd -r -u 10001 -g zeroclaw -m -s /sbin/nologin zeroclaw
+    useradd -r -u 10001 -g zeroclaw -m -s /bin/bash zeroclaw
 
 COPY --from=builder /build/target/release/zeroclaw /usr/local/bin/zeroclaw
 
 RUN mkdir -p /data/workspace && chown -R zeroclaw:zeroclaw /data
 
 RUN mkdir -p /home/zeroclaw/.zeroclaw && chown -R zeroclaw:zeroclaw /home/zeroclaw/.zeroclaw
+
+# Scaffold OpenClaw bootstrap identity files in the workspace
+COPY --chown=zeroclaw:zeroclaw workspace/ /data/workspace/
 COPY --chown=zeroclaw:zeroclaw config.toml /home/zeroclaw/.zeroclaw/config.toml
 COPY --chown=zeroclaw:zeroclaw entrypoint.sh /usr/local/bin/entrypoint.sh
 
@@ -43,4 +50,4 @@ HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
     CMD curl -f http://localhost:42617/health || exit 1
 
 ENTRYPOINT ["entrypoint.sh"]
-CMD ["/usr/local/bin/zeroclaw", "gateway", "--host", "0.0.0.0"]
+CMD ["/usr/local/bin/zeroclaw", "daemon", "--host", "0.0.0.0"]

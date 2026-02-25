@@ -4,7 +4,15 @@ services:
     image: ghcr.io/codervisor/zeroclaw:latest
     container_name: zeroclaw
     ports:
-      - "42617:42617"
+      - "${ZEROCLAW_PORT:-42617}:42617"
     volumes:
       - ./data:/data
+      - ./config.toml:/home/zeroclaw/.zeroclaw/config.toml:ro
+    environment:
+      # Override config.toml values at runtime without editing the file.
+      # Unset vars are ignored; config.toml values are used as fallback.
+      - ZEROCLAW_API_KEY=${ZEROCLAW_API_KEY:-}
+      - ZEROCLAW_PROVIDER=${ZEROCLAW_PROVIDER:-}
+      - ZEROCLAW_MODEL=${ZEROCLAW_MODEL:-}
+      - ZEROCLAW_OPEN_SKILLS_ENABLED=${ZEROCLAW_OPEN_SKILLS_ENABLED:-}
     restart: unless-stopped

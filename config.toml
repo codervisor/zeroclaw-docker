@@ -1,0 +1,232 @@
+# ──────────────────────────────────────────────────────────────
+# ZeroClaw Config — Docker-optimized defaults
+# Ref: https://github.com/zeroclaw-labs/zeroclaw/blob/main/docs/config-reference.md
+#
+# Override any value at runtime via docker-compose environment:
+#   ZEROCLAW_API_KEY, ZEROCLAW_PROVIDER, ZEROCLAW_MODEL, etc.
+# ──────────────────────────────────────────────────────────────
+
+# ── Core Keys ────────────────────────────────────────────────
+api_key = "sk-..."
+default_model = "anthropic/claude-sonnet-4-6"
+default_provider = "openrouter"
+default_temperature = 0.7
+
+# ── Memory ───────────────────────────────────────────────────
+[memory]
+auto_save = true 
+backend = "sqlite" # sqlite | lucid | markdown | none
+embedding_provider = "none" # none | openai | custom endpoint
+# embedding_model = "text-embedding-3-small"
+# embedding_dimensions = 1536
+keyword_weight = 0.3
+vector_weight = 0.7
+
+# ── Gateway ──────────────────────────────────────────────────
+# Port 42617 matches EXPOSE and HEALTHCHECK in the Dockerfile.
+# Host 0.0.0.0 is required inside the container; the Docker
+# port mapping (-p 42617:42617) controls external exposure.
+[gateway]
+allow_public_bind = false
+host = "0.0.0.0"
+port = 42617
+require_pairing = true
+
+# ── Autonomy ─────────────────────────────────────────────────
+[autonomy]
+allowed_commands = ["git", "npm", "cargo", "ls", "cat", "grep"] 
+level = "supervised" # read_only | supervised | full
+workspace_only = true 
+# forbidden_paths uses built-in protected list by default
+# allowed_roots = []
+# max_actions_per_hour = 20
+# max_cost_per_day_cents = 500
+# require_approval_for_medium_risk = true
+# block_high_risk_commands = true
+# auto_approve = []
+# always_ask = []
+
+# ── Runtime ──────────────────────────────────────────────────
+[runtime]
+kind = "native"
+# reasoning_enabled = unset              # true | false | unset (provider default)
+
+# ── Agent ────────────────────────────────────────────────────
+[agent]
+# compact_context = false                # true for 13B or smaller models
+max_history_messages = 50
+max_tool_iterations = 10
+# parallel_tools = false
+# tool_dispatcher = "auto"
+
+# ── Security ─────────────────────────────────────────────────
+[secrets]
+encrypt = true
+
+[security.otp]
+enabled = false
+# method = "totp"                        # totp | pairing | cli-prompt
+# token_ttl_secs = 30
+# cache_valid_secs = 300
+# gated_actions = ["shell", "file_write", "browser_open", "browser", "memory_forget"]
+# gated_domains = []
+# gated_domain_categories = []
+
+[security.estop]
+enabled = false
+# state_file = "~/.zeroclaw/estop-state.json"
+# require_otp_to_resume = true
+
+# ── Observability ────────────────────────────────────────────
+[observability]
+backend = "none" # none | noop | log | prometheus | otel
+# otel_endpoint = "http://localhost:4318"
+# otel_service_name = "zeroclaw"
+# runtime_trace_mode = "none"            # none | rolling | full
+# runtime_trace_path = "state/runtime-trace.jsonl"
+# runtime_trace_max_entries = 200
+
+# ── Cost Tracking ────────────────────────────────────────────
+[cost]
+enabled = false
+# daily_limit_usd = 10.00
+# monthly_limit_usd = 100.00
+# warn_at_percent = 80
+# allow_override = false
+
+# ── Skills ───────────────────────────────────────────────────
+[skills]
+open_skills_enabled = false
+# open_skills_dir = unset                # defaults to $HOME/open-skills
+# prompt_injection_mode = "full"         # full | compact
+
+# ── Identity ─────────────────────────────────────────────────
+[identity]
+format = "openclaw" # openclaw | aieos
+# aieos_path = unset
+# aieos_inline = unset
+
+# ── Multimodal ───────────────────────────────────────────────
+[multimodal]
+allow_remote_fetch = false
+max_image_size_mb = 5
+max_images = 4
+
+# ── Browser ──────────────────────────────────────────────────
+[browser]
+enabled = false
+# allowed_domains = []
+# session_name = unset
+# backend = "agent_browser"              # agent_browser | rust_native | computer_use | auto
+# native_headless = true
+# native_webdriver_url = "http://127.0.0.1:9515"
+
+[browser.computer_use]
+# endpoint = "http://127.0.0.1:8787/v1/actions"
+# timeout_ms = 15000
+# allow_remote_endpoint = false
+# window_allowlist = []
+
+# ── HTTP Request Tool ────────────────────────────────────────
+[http_request]
+enabled = false
+# allowed_domains = []                   # deny-by-default; use "*" for all public
+# max_response_size = 1000000            # 1 MB
+# timeout_secs = 30
+
+# ── Composio ─────────────────────────────────────────────────
+[composio]
+enabled = false
+# api_key = unset
+# entity_id = "default"
+
+# ── Tunnel ───────────────────────────────────────────────────
+[tunnel]
+provider = "none"
+
+# ── Hardware / Peripherals ───────────────────────────────────
+[hardware]
+enabled = false
+# transport = "none"                     # none | native | serial | probe
+
+[peripherals]
+enabled = false
+# boards = []
+
+# ── Channels ─────────────────────────────────────────────────
+[channels_config]
+# message_timeout_secs = 300             # reduce to 60 for cloud APIs
+
+# Uncomment and configure channels as needed:
+#
+# [channels_config.telegram]
+# bot_token = ""
+# allowed_users = []                     # [] = deny all, "*" = allow all
+#
+# [channels_config.discord]
+# bot_token = ""
+# allowed_users = []
+#
+# [channels_config.nostr]
+# private_key = ""                       # hex or nsec1 bech32
+# relays = ["wss://relay.damus.io", "wss://nos.lol"]
+# allowed_pubkeys = []
+#
+# [channels_config.whatsapp]
+# # Cloud API mode (Meta webhook):
+# access_token = ""
+# phone_number_id = ""
+# verify_token = ""
+# allowed_numbers = []
+#
+# [channels_config.linq]
+# api_token = ""
+# from_phone = ""
+# allowed_senders = []
+#
+# [channels_config.nextcloud_talk]
+# base_url = ""
+# app_token = ""
+# allowed_users = []
+#
+# [channels_config.email]
+
+# ── Sub-Agents ───────────────────────────────────────────────
+# Define named sub-agents the primary agent can delegate to.
+#
+# [agents.researcher]
+# provider = "openrouter"
+# model = "anthropic/claude-sonnet-4-6"
+# system_prompt = "You are a research assistant."
+# max_depth = 2
+# agentic = true
+# allowed_tools = ["web_search", "http_request", "file_read"]
+# max_iterations = 8
+#
+# [agents.coder]
+# provider = "ollama"
+# model = "qwen2.5-coder:32b"
+# temperature = 0.2
+
+# ── Model & Embedding Routes ────────────────────────────────
+# Use route hints so integrations keep stable names while models evolve.
+#
+# [[model_routes]]
+# hint = "reasoning"
+# provider = "openrouter"
+# model = "provider/model-id"
+#
+# [[embedding_routes]]
+# hint = "semantic"
+# provider = "openai"
+# model = "text-embedding-3-small"
+# dimensions = 1536
+
+# ── Query Classification ────────────────────────────────────
+[query_classification]
+enabled = false
+# [[query_classification.rules]]
+# hint = "reasoning"
+# keywords = ["explain", "analyze", "why"]
+# min_length = 200
+# priority = 10

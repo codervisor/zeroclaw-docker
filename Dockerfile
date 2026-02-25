@@ -29,6 +29,9 @@ COPY --from=builder /build/target/release/zeroclaw /usr/local/bin/zeroclaw
 
 RUN mkdir -p /data/workspace && chown -R zeroclaw:zeroclaw /data
 
+RUN mkdir -p /home/zeroclaw/.zeroclaw && chown -R zeroclaw:zeroclaw /home/zeroclaw/.zeroclaw
+COPY --chown=zeroclaw:zeroclaw config.toml /home/zeroclaw/.zeroclaw/config.toml
+
 USER zeroclaw
 
 EXPOSE 42617

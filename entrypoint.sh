@@ -52,6 +52,14 @@ if [ -z "$GH_TOKEN" ] && [ -n "$GITHUB_TOKEN" ]; then
     export GH_TOKEN="$GITHUB_TOKEN"
 fi
 
+# ZeroClaw tools may run with a sanitized environment, so GH_TOKEN
+# might not be visible to every subprocess. Persist auth at startup
+# for the zeroclaw user so gh/git continue to work without env passthrough.
+if [ -n "$GH_TOKEN" ]; then
+    printf '%s' "$GH_TOKEN" | gosu zeroclaw gh auth login --hostname github.com --with-token >/dev/null 2>&1 || true
+    gosu zeroclaw gh auth setup-git >/dev/null 2>&1 || true
+fi
+
 # Core
 [ -n "$ZEROCLAW_API_KEY" ]     && toml_set "" api_key             "$ZEROCLAW_API_KEY"
 [ -n "$ZEROCLAW_MODEL" ]       && toml_set "" default_model       "$ZEROCLAW_MODEL"

@@ -7,7 +7,6 @@ services:
       - "${ZEROCLAW_PORT:-42617}:42617"
     volumes:
       - ./data:/data
-      - ./config.toml:/home/zeroclaw/.zeroclaw/config.toml:ro
     environment:
       # Override config.toml values at runtime without editing the file.
       # Unset vars are ignored; config.toml values are used as fallback.

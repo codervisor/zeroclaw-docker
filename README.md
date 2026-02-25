@@ -91,7 +91,7 @@ docker run --rm -p 42617:42617 zeroclaw:local
 
 ## Configuration
 
-Config lives at `~/.zeroclaw/config.toml` inside the container (`/home/zeroclaw/.zeroclaw/config.toml`). The repo's [`config.toml`](config.toml) is baked into the image and bind-mounted read-only via `docker-compose.yml`.
+Config lives at `~/.zeroclaw/config.toml` inside the container (`/home/zeroclaw/.zeroclaw/config.toml`). The repo's [`config.toml`](config.toml) is baked into the image at build time. Use environment variables to override values at runtime without mounting a config file.
 
 Full upstream reference: [docs/config-reference.md](https://github.com/zeroclaw-labs/zeroclaw/blob/main/docs/config-reference.md)
 
@@ -102,9 +102,7 @@ Full upstream reference: [docs/config-reference.md](https://github.com/zeroclaw-
 cp .env.example .env
 # Edit .env → set ZEROCLAW_API_KEY
 
-# 2. (Optional) Customise config.toml for deeper settings
-
-# 3. Start
+# 2. Start
 docker compose up -d
 ```
 

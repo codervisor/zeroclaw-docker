@@ -10,7 +10,7 @@
 api_key = "sk-..."
 default_model = "anthropic/claude-sonnet-4-6"
 default_provider = "openrouter"
-default_temperature = 0.7
+default_temperature = 0.3
 
 # ── Memory ───────────────────────────────────────────────────
 [memory]
@@ -27,7 +27,7 @@ vector_weight = 0.7
 # Host 0.0.0.0 is required inside the container; the Docker
 # port mapping (-p 42617:42617) controls external exposure.
 [gateway]
-allow_public_bind = false
+allow_public_bind = true
 host = "0.0.0.0"
 port = 42617
 require_pairing = true
@@ -35,16 +35,16 @@ require_pairing = true
 # ── Autonomy ─────────────────────────────────────────────────
 [autonomy]
 allowed_commands = ["git", "npm", "cargo", "ls", "cat", "grep"] 
-level = "supervised" # read_only | supervised | full
+allowed_roots = ["/home/zeroclaw"] 
+always_ask = [] 
+auto_approve = [] 
+block_high_risk_commands = true 
+forbidden_paths = [] 
+level = "full" # read_only | supervised | full
+max_actions_per_hour = 20 
+max_cost_per_day_cents = 500 
+require_approval_for_medium_risk = true 
 workspace_only = true 
-# forbidden_paths uses built-in protected list by default
-# allowed_roots = []
-# max_actions_per_hour = 20
-# max_cost_per_day_cents = 500
-# require_approval_for_medium_risk = true
-# block_high_risk_commands = true
-# auto_approve = []
-# always_ask = []
 
 # ── Runtime ──────────────────────────────────────────────────
 [runtime]
@@ -155,7 +155,8 @@ enabled = false
 
 # ── Channels ─────────────────────────────────────────────────
 [channels_config]
-# message_timeout_secs = 300             # reduce to 60 for cloud APIs
+cli = true 
+message_timeout_secs = 300 # reduce to 60 for cloud APIs
 
 # Uncomment and configure channels as needed:
 #

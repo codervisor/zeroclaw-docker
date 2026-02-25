@@ -20,6 +20,7 @@ FROM debian:trixie-slim
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     curl \
+    gosu \
     && rm -rf /var/lib/apt/lists/*
 
 RUN groupadd -r zeroclaw && \
@@ -31,12 +32,15 @@ RUN mkdir -p /data/workspace && chown -R zeroclaw:zeroclaw /data
 
 RUN mkdir -p /home/zeroclaw/.zeroclaw && chown -R zeroclaw:zeroclaw /home/zeroclaw/.zeroclaw
 COPY --chown=zeroclaw:zeroclaw config.toml /home/zeroclaw/.zeroclaw/config.toml
+COPY --chown=zeroclaw:zeroclaw entrypoint.sh /usr/local/bin/entrypoint.sh
 
-USER zeroclaw
+# Container starts as root; entrypoint fixes /data ownership
+# then drops to the zeroclaw user via gosu.
 
 EXPOSE 42617
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
     CMD curl -f http://localhost:42617/health || exit 1
 
+ENTRYPOINT ["entrypoint.sh"]
 CMD ["/usr/local/bin/zeroclaw", "gateway", "--host", "0.0.0.0"]

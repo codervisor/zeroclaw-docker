@@ -15,7 +15,7 @@ RUN git clone --depth 1 https://github.com/zeroclaw-labs/zeroclaw.git .
 RUN cargo build --release
 
 # Stage 2: Runtime
-FROM debian:bookworm-slim
+FROM debian:trixie-slim
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \

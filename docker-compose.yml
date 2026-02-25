@@ -1,5 +1,6 @@
 services:
   zeroclaw:
+    build: .
     image: ghcr.io/codervisor/zeroclaw:latest
     container_name: zeroclaw
     ports:

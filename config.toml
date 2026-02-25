@@ -61,17 +61,34 @@ allowed_commands = [
   "env",
   "gpg",
   "sudo",
+  "bash",
+  "sh",
+  "head",
+  "tail",
+  "tee",
+  "sort",
+  "wc",
+  "find",
+  "xargs",
+  "sed",
+  "awk",
+  "python3",
+  "node",
+  "touch",
+  "rm",
+  "date",
+  "jq",
 ] 
-allowed_roots = ["/home/zeroclaw", "/tmp", "/usr/local/bin"] 
+allowed_roots = ["/home/zeroclaw", "/tmp", "/usr/local/bin", "/usr/bin", "/etc"] 
 always_ask = [] 
 auto_approve = [] 
-block_high_risk_commands = true 
+block_high_risk_commands = false 
 forbidden_paths = [] 
 level = "full" # read_only | supervised | full
-max_actions_per_hour = 20 
+max_actions_per_hour = 60 
 max_cost_per_day_cents = 500 
-require_approval_for_medium_risk = true 
-workspace_only = true 
+require_approval_for_medium_risk = false 
+workspace_only = false 
 
 # ── Runtime ──────────────────────────────────────────────────
 [runtime]
@@ -89,6 +106,21 @@ max_tool_iterations = 10
 # ── Security ─────────────────────────────────────────────────
 [secrets]
 encrypt = true
+
+# ── HTTP Request Tool ─────────────────────────────────────────
+[http_request]
+enabled = true
+# allowed_domains = []                   # empty = allow all
+# blocked_domains = ["169.254.169.254"]  # block cloud metadata SSRF
+# max_response_size_bytes = 1048576      # 1 MiB
+# timeout_secs = 30
+
+# ── Browser Tool ─────────────────────────────────────────────
+[browser]
+enabled = true
+# backend = "headless"                   # headless | playwright
+# allowed_domains = []
+# blocked_domains = []
 
 [security.otp]
 enabled = false

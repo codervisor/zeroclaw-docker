@@ -45,6 +45,13 @@ toml_set() {
 # Only variables that are set and non-empty trigger an override.
 # Unset variables leave the config.toml defaults in place.
 
+# ── GitHub CLI authentication ─────────────────────────────
+# GH_TOKEN is the standard env var for gh (GitHub CLI).
+# Accept either GH_TOKEN or GITHUB_TOKEN, prefer GH_TOKEN.
+if [ -z "$GH_TOKEN" ] && [ -n "$GITHUB_TOKEN" ]; then
+    export GH_TOKEN="$GITHUB_TOKEN"
+fi
+
 # Core
 [ -n "$ZEROCLAW_API_KEY" ]     && toml_set "" api_key             "$ZEROCLAW_API_KEY"
 [ -n "$ZEROCLAW_MODEL" ]       && toml_set "" default_model       "$ZEROCLAW_MODEL"
@@ -110,6 +117,12 @@ toml_set() {
 [ -n "$ZEROCLAW_COST_DAILY_LIMIT" ]   && toml_set cost daily_limit_usd "$ZEROCLAW_COST_DAILY_LIMIT" num
 [ -n "$ZEROCLAW_COST_MONTHLY_LIMIT" ] && toml_set cost monthly_limit_usd "$ZEROCLAW_COST_MONTHLY_LIMIT" num
 [ -n "$ZEROCLAW_COST_WARN_PERCENT" ]  && toml_set cost warn_at_percent "$ZEROCLAW_COST_WARN_PERCENT" num
+
+# HTTP Request tool
+[ -n "$ZEROCLAW_HTTP_REQUEST_ENABLED" ] && toml_set http_request enabled "$ZEROCLAW_HTTP_REQUEST_ENABLED" bool
+
+# Browser tool
+[ -n "$ZEROCLAW_BROWSER_ENABLED" ] && toml_set browser enabled "$ZEROCLAW_BROWSER_ENABLED" bool
 
 # Skills
 [ -n "$ZEROCLAW_OPEN_SKILLS_ENABLED" ] && toml_set skills open_skills_enabled "$ZEROCLAW_OPEN_SKILLS_ENABLED" bool

@@ -150,9 +150,9 @@ Docker Compose automatically loads `.env` from the project directory and passes 
 | `ZEROCLAW_AUTONOMY_LEVEL`                   | `autonomy.level`                            | string     | `full`                |
 | `ZEROCLAW_AUTONOMY_MAX_ACTIONS_PER_HOUR`    | `autonomy.max_actions_per_hour`             | number     | `20`                  |
 | `ZEROCLAW_AUTONOMY_MAX_COST_PER_DAY_CENTS`  | `autonomy.max_cost_per_day_cents`           | number     | `500`                 |
-| `ZEROCLAW_AUTONOMY_BLOCK_HIGH_RISK`         | `autonomy.block_high_risk_commands`         | bool       | `true`                |
-| `ZEROCLAW_AUTONOMY_REQUIRE_APPROVAL_MEDIUM` | `autonomy.require_approval_for_medium_risk` | bool       | `true`                |
-| `ZEROCLAW_AUTONOMY_WORKSPACE_ONLY`          | `autonomy.workspace_only`                   | bool       | `true`                |
+| `ZEROCLAW_AUTONOMY_BLOCK_HIGH_RISK`         | `autonomy.block_high_risk_commands`         | bool       | `false`               |
+| `ZEROCLAW_AUTONOMY_REQUIRE_APPROVAL_MEDIUM` | `autonomy.require_approval_for_medium_risk` | bool       | `false`               |
+| `ZEROCLAW_AUTONOMY_WORKSPACE_ONLY`          | `autonomy.workspace_only`                   | bool       | `false`               |
 | `ZEROCLAW_AUTONOMY_ALLOWED_COMMANDS`        | `autonomy.allowed_commands`                 | TOML array | `["git", "npm", ...]` |
 | `ZEROCLAW_AUTONOMY_ALLOWED_ROOTS`           | `autonomy.allowed_roots`                    | TOML array | `["/home/zeroclaw"]`  |
 
@@ -218,6 +218,25 @@ Docker Compose automatically loads `.env` from the project directory and passes 
 | ------------------------------ | ---------------------------- | ------ | --------- |
 | `ZEROCLAW_OPEN_SKILLS_ENABLED` | `skills.open_skills_enabled` | bool   | `false`   |
 | `ZEROCLAW_OPEN_SKILLS_DIR`     | `skills.open_skills_dir`     | string | *(unset)* |
+
+#### GitHub CLI
+
+| Variable       | Purpose                                                                  | Default   |
+| -------------- | ------------------------------------------------------------------------ | --------- |
+| `GH_TOKEN`     | Auth token for `gh` CLI (GitHub API). Takes precedence over GITHUB_TOKEN | *(unset)* |
+| `GITHUB_TOKEN` | Fallback auth token; copied to `GH_TOKEN` if `GH_TOKEN` is unset         | *(unset)* |
+
+#### HTTP Request Tool
+
+| Variable                        | Config key             | Type | Default |
+| ------------------------------- | ---------------------- | ---- | ------- |
+| `ZEROCLAW_HTTP_REQUEST_ENABLED` | `http_request.enabled` | bool | `true`  |
+
+#### Browser Tool
+
+| Variable                   | Config key        | Type | Default |
+| -------------------------- | ----------------- | ---- | ------- |
+| `ZEROCLAW_BROWSER_ENABLED` | `browser.enabled` | bool | `true`  |
 
 #### Channels (top-level)
 
